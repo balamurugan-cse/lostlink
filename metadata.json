@@ -1,0 +1,8 @@
+{
+  "name": "LostLink - Smart Campus Lost & Found",
+  "description": "Smart Campus Lost & Found Management System with rule-based smart matching, claim verification, role-based workflows, and campus operations analytics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
