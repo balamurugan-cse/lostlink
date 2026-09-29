@@ -126,55 +126,63 @@ export const AdminManagementView: React.FC<AdminManagementViewProps> = ({
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {filteredItems.map(item => (
-                  <tr key={item._id} className="hover:bg-slate-50/70 transition-colors">
-                    <td className="py-3 px-3">
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
-                        item.type === 'lost' ? 'bg-rose-100 text-rose-700' : 'bg-blue-100 text-blue-700'
-                      }`}>
-                        {item.type}
-                      </span>
-                    </td>
-                    <td className="py-3 px-3 font-semibold text-slate-900 max-w-[200px] truncate">
-                      {item.title}
-                    </td>
-                    <td className="py-3 px-3 text-slate-600">{item.category}</td>
-                    <td className="py-3 px-3 text-slate-600 max-w-[150px] truncate">{item.location}</td>
-                    <td className="py-3 px-3 text-slate-600">
-                      <div>{item.ownerName}</div>
-                      <div className="text-[10px] text-slate-400 font-mono">{item.ownerRole}</div>
-                    </td>
-                    <td className="py-3 px-3 font-mono text-slate-500">{item.date}</td>
-                    <td className="py-3 px-3">
-                      <select
-                        value={item.status}
-                        onChange={(e) => onUpdateItemStatus(item._id, e.target.value as Item['status'])}
-                        className="px-2 py-1 bg-white border border-slate-300 rounded text-xs font-semibold focus:outline-none focus:border-blue-600 capitalize cursor-pointer"
-                      >
-                        <option value="open">Open</option>
-                        <option value="in_verification">In Verification</option>
-                        <option value="claimed">Claimed</option>
-                        <option value="returned">Returned</option>
-                        <option value="closed">Closed</option>
-                      </select>
-                    </td>
-                    <td className="py-3 px-3 text-right space-x-2">
-                      <button
-                        onClick={() => onSelectItem(item)}
-                        className="text-blue-600 hover:text-blue-800 font-semibold cursor-pointer"
-                      >
-                        Inspect
-                      </button>
-                      <button
-                        onClick={() => onDeleteItem(item._id)}
-                        className="text-rose-600 hover:text-rose-800 font-semibold cursor-pointer"
-                        title="Delete report"
-                      >
-                        Delete
-                      </button>
+                {filteredItems.length > 0 ? (
+                  filteredItems.map(item => (
+                    <tr key={item._id} className="hover:bg-slate-50/70 transition-colors">
+                      <td className="py-3 px-3">
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
+                          item.type === 'lost' ? 'bg-rose-100 text-rose-700' : 'bg-blue-100 text-blue-700'
+                        }`}>
+                          {item.type}
+                        </span>
+                      </td>
+                      <td className="py-3 px-3 font-semibold text-slate-900 max-w-[200px] truncate">
+                        {item.title}
+                      </td>
+                      <td className="py-3 px-3 text-slate-600">{item.category}</td>
+                      <td className="py-3 px-3 text-slate-600 max-w-[150px] truncate">{item.location}</td>
+                      <td className="py-3 px-3 text-slate-600">
+                        <div>{item.ownerName}</div>
+                        <div className="text-[10px] text-slate-400 font-mono">{item.ownerRole}</div>
+                      </td>
+                      <td className="py-3 px-3 font-mono text-slate-500">{item.date}</td>
+                      <td className="py-3 px-3">
+                        <select
+                          value={item.status}
+                          onChange={(e) => onUpdateItemStatus(item._id, e.target.value as Item['status'])}
+                          className="px-2 py-1 bg-white border border-slate-300 rounded text-xs font-semibold focus:outline-none focus:border-blue-600 capitalize cursor-pointer"
+                        >
+                          <option value="open">Open</option>
+                          <option value="in_verification">In Verification</option>
+                          <option value="claimed">Claimed</option>
+                          <option value="returned">Returned</option>
+                          <option value="closed">Closed</option>
+                        </select>
+                      </td>
+                      <td className="py-3 px-3 text-right space-x-2">
+                        <button
+                          onClick={() => onSelectItem(item)}
+                          className="text-blue-600 hover:text-blue-800 font-semibold cursor-pointer"
+                        >
+                          Inspect
+                        </button>
+                        <button
+                          onClick={() => onDeleteItem(item._id)}
+                          className="text-rose-600 hover:text-rose-800 font-semibold cursor-pointer"
+                          title="Delete report"
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={8} className="py-8 text-center text-xs text-slate-400">
+                      No reports registered yet in the campus system.
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>
@@ -260,28 +268,36 @@ export const AdminManagementView: React.FC<AdminManagementViewProps> = ({
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {users.map(u => (
-                  <tr key={u._id} className="hover:bg-slate-50 transition-colors">
-                    <td className="py-3 px-3 font-semibold text-slate-900">{u.name}</td>
-                    <td className="py-3 px-3 font-mono text-slate-600">{u.email}</td>
-                    <td className="py-3 px-3">
-                      <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
-                        u.role === 'Administrator'
-                          ? 'bg-purple-100 text-purple-800'
-                          : u.role === 'Faculty/Staff'
-                          ? 'bg-blue-100 text-blue-800'
-                          : 'bg-slate-100 text-slate-800'
-                      }`}>
-                        {u.role}
-                      </span>
-                    </td>
-                    <td className="py-3 px-3 text-slate-600">{u.department}</td>
-                    <td className="py-3 px-3 font-mono text-slate-500">{u.studentId || 'N/A'}</td>
-                    <td className="py-3 px-3 font-mono text-slate-400">
-                      {new Date(u.createdAt).toLocaleDateString()}
+                {users.length > 0 ? (
+                  users.map(u => (
+                    <tr key={u._id} className="hover:bg-slate-50 transition-colors">
+                      <td className="py-3 px-3 font-semibold text-slate-900">{u.name}</td>
+                      <td className="py-3 px-3 font-mono text-slate-600">{u.email}</td>
+                      <td className="py-3 px-3">
+                        <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
+                          u.role === 'Administrator'
+                            ? 'bg-purple-100 text-purple-800'
+                            : u.role === 'Faculty/Staff'
+                            ? 'bg-blue-100 text-blue-800'
+                            : 'bg-slate-100 text-slate-800'
+                        }`}>
+                          {u.role}
+                        </span>
+                      </td>
+                      <td className="py-3 px-3 text-slate-600">{u.department}</td>
+                      <td className="py-3 px-3 font-mono text-slate-500">{u.studentId || 'N/A'}</td>
+                      <td className="py-3 px-3 font-mono text-slate-400">
+                        {new Date(u.createdAt).toLocaleDateString()}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={6} className="py-8 text-center text-xs text-slate-400">
+                      No users registered yet. New user sign-ups will be listed here.
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>

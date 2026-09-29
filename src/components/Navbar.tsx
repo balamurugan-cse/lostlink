@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { User, Notification, UserRole } from '../types';
-import { Bell, Shield, LogOut, LogIn, Menu, X, Users, Check, ChevronDown } from 'lucide-react';
+import { User, Notification } from '../types';
+import { Bell, Shield, LogOut, LogIn, Menu, X } from 'lucide-react';
 import { DmiLogo } from './DmiLogo';
-import { INITIAL_USERS } from '../services/storage';
 
 interface NavbarProps {
   currentUser: User | null;
@@ -20,11 +19,9 @@ export const Navbar: React.FC<NavbarProps> = ({
   onNavigate,
   notifications,
   onOpenAuth,
-  onLogout,
-  onSwitchUser
+  onLogout
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [roleSwitcherOpen, setRoleSwitcherOpen] = useState(false);
   const unreadCount = notifications.filter(n => !n.read).length;
 
   const handleMobileNav = (screen: string) => {
@@ -54,7 +51,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
           </div>
 
-          {/* Zone 2: 4–6 nav links, 1–2 word labels, single-line text */}
+          {/* Zone 2: Navigation links */}
           <nav className="hidden lg:flex items-center gap-7 text-sm font-medium text-slate-600">
             <button
               onClick={() => onNavigate('landing')}
@@ -111,53 +108,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
           </nav>
 
-          {/* Zone 3: 1–2 primary actions + Demo Persona Switcher */}
+          {/* Zone 3: Primary actions & User authentication */}
           <div className="flex items-center gap-2 sm:gap-3">
-            {/* Quick Demo Persona Switcher */}
-            <div className="relative">
-              <button
-                onClick={() => setRoleSwitcherOpen(!roleSwitcherOpen)}
-                className="hidden md:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 hover:border-slate-300 text-xs font-semibold text-slate-700 bg-slate-50 transition-colors cursor-pointer"
-                title="Switch Demo Role (Student, Faculty, Security Admin)"
-              >
-                <Users className="w-3.5 h-3.5 text-blue-600" />
-                <span className="hidden xl:inline">Role:</span>
-                <span className="text-slate-900 font-bold">
-                  {currentUser ? currentUser.role : 'Guest'}
-                </span>
-                <ChevronDown className="w-3 h-3 text-slate-400" />
-              </button>
-
-              {roleSwitcherOpen && (
-                <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-slate-200 p-2 z-50 animate-in fade-in zoom-in-95 duration-150">
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-2 py-1 mb-1">
-                    Select Active Persona
-                  </div>
-                  {INITIAL_USERS.map((u) => {
-                    const isSelected = currentUser?._id === u._id;
-                    return (
-                      <button
-                        key={u._id}
-                        onClick={() => {
-                          if (onSwitchUser) onSwitchUser(u);
-                          setRoleSwitcherOpen(false);
-                        }}
-                        className={`w-full text-left p-2 rounded-lg text-xs flex items-center justify-between transition-colors cursor-pointer ${
-                          isSelected ? 'bg-blue-50 text-blue-900 font-semibold' : 'hover:bg-slate-50 text-slate-700'
-                        }`}
-                      >
-                        <div>
-                          <div className="font-bold text-slate-900">{u.name}</div>
-                          <div className="text-[11px] text-slate-500">{u.role} · {u.department}</div>
-                        </div>
-                        {isSelected && <Check className="w-4 h-4 text-blue-600 shrink-0" />}
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-
             {/* Notifications */}
             {currentUser && (
               <button
@@ -221,7 +173,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Mobile Navigation Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-3 shadow-lg animate-in slide-in-from-top-2 duration-150">
+        <div className="lg:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-2 shadow-lg animate-in slide-in-from-top-2 duration-150">
           <nav className="flex flex-col space-y-1 text-sm font-semibold">
             <button
               onClick={() => handleMobileNav('landing')}
@@ -277,35 +229,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>Admin Console</span>
             </button>
           </nav>
-
-          {/* Quick Persona Switcher for Mobile */}
-          <div className="pt-3 border-t border-slate-100">
-            <div className="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2">
-              Quick Role Switcher
-            </div>
-            <div className="grid grid-cols-3 gap-1.5">
-              {INITIAL_USERS.map((u) => {
-                const isSelected = currentUser?._id === u._id;
-                return (
-                  <button
-                    key={u._id}
-                    onClick={() => {
-                      if (onSwitchUser) onSwitchUser(u);
-                      setMobileMenuOpen(false);
-                    }}
-                    className={`p-2 rounded-lg text-center text-xs transition-colors cursor-pointer ${
-                      isSelected
-                        ? 'bg-blue-600 text-white font-bold'
-                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                    }`}
-                  >
-                    <div className="truncate font-semibold">{u.name.split(' ')[0]}</div>
-                    <div className="text-[10px] opacity-80">{u.role.replace('/Staff', '')}</div>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
         </div>
       )}
     </header>

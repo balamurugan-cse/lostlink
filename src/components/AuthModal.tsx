@@ -138,62 +138,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
         {/* Forms */}
         <div className="p-6">
-          {/* Quick Demo Access Bar */}
-          <div className="mb-5 p-3 bg-slate-50 border border-slate-200 rounded-xl">
-            <div className="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2">
-              Instant Demo Access (Click to sign in)
-            </div>
-            <div className="grid grid-cols-3 gap-2">
-              <button
-                type="button"
-                onClick={() => {
-                  const student = StorageService.getUsers().find(u => u.role === 'Student') || StorageService.loginUser('anand.r@dmice.ac.in').user;
-                  if (student) {
-                    StorageService.setCurrentUser(student);
-                    onLoginSuccess(student);
-                    onClose();
-                  }
-                }}
-                className="p-2 bg-white border border-slate-200 hover:border-blue-400 hover:bg-blue-50/50 rounded-lg text-left transition-colors cursor-pointer shadow-2xs"
-              >
-                <div className="font-bold text-slate-900 text-xs">Student</div>
-                <div className="text-[10px] text-slate-500 truncate">R. Anand</div>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => {
-                  const faculty = StorageService.getUsers().find(u => u.role === 'Faculty/Staff') || StorageService.loginUser('malar.s@dmice.ac.in').user;
-                  if (faculty) {
-                    StorageService.setCurrentUser(faculty);
-                    onLoginSuccess(faculty);
-                    onClose();
-                  }
-                }}
-                className="p-2 bg-white border border-slate-200 hover:border-blue-400 hover:bg-blue-50/50 rounded-lg text-left transition-colors cursor-pointer shadow-2xs"
-              >
-                <div className="font-bold text-slate-900 text-xs">Faculty</div>
-                <div className="text-[10px] text-slate-500 truncate">Prof. Malar</div>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => {
-                  const admin = StorageService.getUsers().find(u => u.role === 'Administrator') || StorageService.loginUser('security.admin@dmice.ac.in').user;
-                  if (admin) {
-                    StorageService.setCurrentUser(admin);
-                    onLoginSuccess(admin);
-                    onClose();
-                  }
-                }}
-                className="p-2 bg-white border border-slate-200 hover:border-purple-400 hover:bg-purple-50/50 rounded-lg text-left transition-colors cursor-pointer shadow-2xs"
-              >
-                <div className="font-bold text-slate-900 text-xs">Admin</div>
-                <div className="text-[10px] text-slate-500 truncate">Campus Sec</div>
-              </button>
-            </div>
-          </div>
-
           {tab === 'login' ? (
             <form onSubmit={handleLoginSubmit} className="space-y-4">
               <div>

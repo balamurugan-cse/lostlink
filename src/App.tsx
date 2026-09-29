@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { StorageService, INITIAL_USERS } from './services/storage';
+import { StorageService } from './services/storage';
 import { User, Item, Claim, Notification, Category, CampusStats } from './types';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
@@ -247,18 +247,44 @@ function LostLinkAppContent() {
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {items.slice(0, 6).map((item) => (
-                  <ItemCard
-                    key={item._id}
-                    item={item}
-                    onSelect={(it) => setSelectedItem(it)}
-                    onCheckMatches={handleOpenSmartMatches}
-                    onClaim={handleOpenClaim}
-                    isOwner={currentUser?._id === item.ownerId}
-                  />
-                ))}
-              </div>
+              {items.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {items.slice(0, 6).map((item) => (
+                    <ItemCard
+                      key={item._id}
+                      item={item}
+                      onSelect={(it) => setSelectedItem(it)}
+                      onCheckMatches={handleOpenSmartMatches}
+                      onClaim={handleOpenClaim}
+                      isOwner={currentUser?._id === item.ownerId}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="bg-slate-50 border border-slate-200 rounded-xl p-10 text-center max-w-lg mx-auto">
+                  <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center mx-auto mb-3">
+                    <Search className="w-6 h-6" />
+                  </div>
+                  <h3 className="text-base font-bold text-slate-900 mb-1">Catalog is currently empty</h3>
+                  <p className="text-xs text-slate-500 mb-5">
+                    No lost reports or found items have been logged yet. Be the first to register a misplaced or found item.
+                  </p>
+                  <div className="flex flex-wrap items-center justify-center gap-2.5">
+                    <button
+                      onClick={() => handleNavigate('report_lost')}
+                      className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-lg transition-colors cursor-pointer"
+                    >
+                      Report Lost Item
+                    </button>
+                    <button
+                      onClick={() => handleNavigate('report_found')}
+                      className="px-4 py-2 bg-white hover:bg-slate-100 border border-slate-300 text-slate-800 text-xs font-semibold rounded-lg transition-colors cursor-pointer"
+                    >
+                      Report Found Item
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* How LostLink Works */}

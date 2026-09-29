@@ -187,34 +187,40 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               </button>
             </div>
 
-            <div className="divide-y divide-slate-100">
-              {recentReports.map(item => (
-                <div
-                  key={item._id}
-                  onClick={() => onSelectItem(item)}
-                  className="p-4 flex items-center justify-between gap-4 hover:bg-slate-50 transition-colors cursor-pointer"
-                >
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
-                        item.type === 'lost' ? 'bg-rose-100 text-rose-700' : 'bg-blue-100 text-blue-700'
-                      }`}>
-                        {item.type}
-                      </span>
-                      <span className="text-xs text-slate-400 font-mono">{item.date}</span>
+            {recentReports.length > 0 ? (
+              <div className="divide-y divide-slate-100">
+                {recentReports.map(item => (
+                  <div
+                    key={item._id}
+                    onClick={() => onSelectItem(item)}
+                    className="p-4 flex items-center justify-between gap-4 hover:bg-slate-50 transition-colors cursor-pointer"
+                  >
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
+                          item.type === 'lost' ? 'bg-rose-100 text-rose-700' : 'bg-blue-100 text-blue-700'
+                        }`}>
+                          {item.type}
+                        </span>
+                        <span className="text-xs text-slate-400 font-mono">{item.date}</span>
+                      </div>
+                      <div className="text-sm font-semibold text-slate-900 truncate">{item.title}</div>
+                      <div className="text-xs text-slate-500 truncate">{item.location} · {item.ownerName}</div>
                     </div>
-                    <div className="text-sm font-semibold text-slate-900 truncate">{item.title}</div>
-                    <div className="text-xs text-slate-500 truncate">{item.location} · {item.ownerName}</div>
-                  </div>
 
-                  <div className="text-right shrink-0">
-                    <span className="text-xs font-semibold capitalize text-slate-700">
-                      {item.status.replace('_', ' ')}
-                    </span>
+                    <div className="text-right shrink-0">
+                      <span className="text-xs font-semibold capitalize text-slate-700">
+                        {item.status.replace('_', ' ')}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            ) : (
+              <div className="p-8 text-center text-xs text-slate-500">
+                No reports submitted yet. Newly reported lost or found items will appear here.
+              </div>
+            )}
           </div>
         </div>
 
